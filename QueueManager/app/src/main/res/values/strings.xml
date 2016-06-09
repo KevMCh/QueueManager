@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Queue manager</string>
+    <string name="actionSettings">Settings</string>
+
+    <string name="title">Gestor de colas</string>
+    <string name="enter">Entrar</string>
+    <string name="accessQueue">Acceder cola</string>
+
+    <string name="qr">Capturar QR</string>
+    <string name="settings">Ajustes</string>
+
+</resources>
