@@ -8,5 +8,5 @@
 
     <string name="qr">Capturar QR</string>
     <string name="settings">Ajustes</string>
-
+    <string name="queuelistButton">Listado de colas</string>
 </resources>

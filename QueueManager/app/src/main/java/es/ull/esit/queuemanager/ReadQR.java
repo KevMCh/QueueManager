@@ -7,17 +7,29 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import es.ull.esit.queuemanager.com.google.zxing.IntentIntegrator;
 import es.ull.esit.queuemanager.com.google.zxing.IntentResult;
 
 public class ReadQR extends Activity {
 
+    private final String URLFIREBASE = "https://queuelist.firebaseio.com/";
+
     private ImageButton buttonReader;
+    private Firebase firebase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +43,8 @@ public class ReadQR extends Activity {
                 new IntentIntegrator(ReadQR.this).initiateScan();
             }
         });
+
+        Firebase.setAndroidContext(this);
     }
 
     @Override
@@ -48,9 +62,15 @@ public class ReadQR extends Activity {
     }
 
     private void updateViews(String scanResult, String scanResultFormat) {
-        ((TextView) findViewById(R.id.codeFormat)).setText(scanResultFormat);
+        /* ((TextView) findViewById(R.id.codeFormat)).setText(scanResultFormat);
         final TextView codeResult = (TextView)findViewById(R.id.codeResult);
-        codeResult.setText(scanResult);
+        codeResult.setText(scanResult); */
+
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase(URLFIREBASE).child(scanResult).child(
+                android.provider.Settings.System.getString(getContentResolver(),
+                        android.provider.Settings.System.ANDROID_ID));
+        firebase.setValue("Default");
     }
 
     public ImageButton getButtonReader() { return buttonReader; }

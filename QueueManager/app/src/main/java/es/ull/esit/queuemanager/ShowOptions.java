@@ -13,6 +13,7 @@ public class ShowOptions extends Activity {
 
     private Button getQRCodeButton;
     private Button settingsButton;
+    private Button queuelistButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,16 @@ public class ShowOptions extends Activity {
             public void onClick(View view) {
                 Intent readQR = new Intent(ShowOptions.this, ReadQR.class);
                 startActivity(readQR);
+
+            }
+        });
+
+        queuelistButton = ((Button) findViewById(R.id.queuelistButton));
+        queuelistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent queuelist = new Intent(ShowOptions.this, ShowQueue.class);
+                startActivity(queuelist);
 
             }
         });
