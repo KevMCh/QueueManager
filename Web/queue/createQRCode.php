@@ -4,7 +4,7 @@ if (!isAuth()){
   header('Location: /index.php');
 }
 $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
-$PNG_WEB_DIR = '/newQueue/temp/';
+$PNG_WEB_DIR = '/queue/temp/';
 
 include "phpqrcode.php";
 

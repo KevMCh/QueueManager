@@ -1,3 +1,9 @@
+<?php
+require_once ("../includes/authentication/isAuth.php");
+if (isAuth()){
+  header('Location: /');
+}
+?>
 <html lang="es">
     <head>
         <title>Queue Manager</title>
@@ -6,7 +12,7 @@
 <body>
   <body>
     <h1>Crear usuario </h1>
-    <form method="post" action="/newEntity/accept.php">
+    <form method="post" action="/entity/accept.php">
       Nombre:
       <input type="text" name="name">
       <br>

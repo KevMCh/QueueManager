@@ -1,5 +1,5 @@
 <?php
-include ("isAuth.php");
+require_once ("isAuth.php");
 if (isAuth()) {
   if (!isset($_SESSION)){
     session_start();
