@@ -12,4 +12,9 @@ function connectToDataBase(){
     return $linkDB;
   }
 }
+
+function disconnectDataBase($conexion){
+    $close = mysqli_close($conexion);
+    return $close;
+}
 ?>

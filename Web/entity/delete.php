@@ -8,10 +8,19 @@ $idEntity = $_GET['idEntity'];
 $linkDB = connectToDataBase();
 $sqlEntity = "DELETE FROM Entitys WHERE ID = $idEntity";
 $sqlQueue = "DELETE FROM Queues WHERE IDEntity = $idEntity";
+$sqlIDQueues = "SELECT ID FROM Queues WHERE IDEntity = $idEntity";
 $sqlUser = "DELETE FROM UsersQueue WHERE IDQueue IN " .
            "(SELECT ID FROM Queues WHERE IDEntity = $idEntity)";
 
 $resultUser = mysqli_query($sqlUser);
+
+if ($result = $linkDB->query($sqlIDQueues)) {
+  while ($row = $result->fetch_row()) {
+    $file = "../queue/temp/" . $row[0] . ".png";
+    unlink($file);
+  }
+}
+
 $resultQueue = mysqli_query($sqlQueue);
 $resultEntity = mysqli_query($sqlEntity);
 ?>
