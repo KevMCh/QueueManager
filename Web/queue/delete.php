@@ -10,7 +10,6 @@ $sqlUser = "DELETE FROM UsersQueue WHERE IDQueue = $idQueue";
 $file = "temp/" . $idQueue . ".png";
 unlink($file);
 
-
 $resultQueue = mysqli_query($sqlQueue);
 $resultUser = mysqli_query($sqlUser);
 $linkDB->query($sqlQueue);

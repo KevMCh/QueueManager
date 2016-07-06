@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Queue manager</string>
+    <string name="app_name">Turn - Time</string>
     <string name="actionSettings">Settings</string>
 
-    <string name="title">Gestor de colas</string>
+    <string name="title">Turn - Time</string>
     <string name="enter">Entrar</string>
     <string name="accessQueue">Acceder cola</string>
 

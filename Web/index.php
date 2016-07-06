@@ -24,23 +24,35 @@ if (isAuth()) {
   ?>
   <html lang="es">
   <head>
-    <title>Queue Manager</title>
+    <title>Turn - Time</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/includes/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
-  <body>
+  <body class="text-center">
+    <main >
+      <?php
+      include ("/includes/navBar.php");
+      ?>
+      <img src="/includes/logo.png" alt="logo" height="500" width="500">
+      <form class="login" method="post" action="/" id="login">
+        Nombre:
+        <br>
+        <input type="text" name="name">
+        <br>
+        Contraseña:
+        <br>
+        <input type="password" name="password">
+        <br> <br>
+        <input type="Submit" class='button btn btn-default' name="enviar"
+        value="Acceder">
+        <a href="/entity/createUser.php" class="textGold"> Nuevo usuario <a>
+      </form>
+    </main>
     <?php
-    include ("/includes/navBar.php");
+    include ("includes/footer.php");
     ?>
-    <h1> Queue Manager </h1>
-    <form method="post" action="/">
-      Nombre:
-      <input type="text" name="name">
-      <br>
-      Contraseña:
-      <input type="text" name="password">
-      <br> <br>
-      <input type="Submit" name="enviar" value="Acceder">
-    </form>
-    <a href="/entity/createUser.php"> Nuevo usuario <a>
 </body>
 </html>

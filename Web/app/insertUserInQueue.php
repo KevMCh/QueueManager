@@ -11,10 +11,12 @@ $resultQueue = $linkDB->query($queryQueue);
 if ($resultQueue && ($resultQueue->num_rows > 0)) {
   $queryNumUser = "SELECT * FROM UsersQueue WHERE IDQueue = $idQueue";
   $resultNumUser = $linkDB->query($queryNumUser);
-  $position = $resultNumUser->num_rows;
+  $position = $resultNumUser->num_rows + 1;
+  $objDateTime = new DateTime('NOW');
+  $time = $objDateTime->format('c');
 
-  $sql = "INSERT INTO UsersQueue (Position, IDQueue, IDUser, Attended)" .
-         "VALUES ('$position', '$idQueue', '$idUser', '0')";
+  $sql = "INSERT INTO UsersQueue (Position, IDQueue, IDUser, HasBeenCreated, Attended)" .
+         "VALUES ('$position', '$idQueue', '$idUser', '$time', '0')";
 
   $result = mysqli_query($sql);
   $linkDB->query($sql);

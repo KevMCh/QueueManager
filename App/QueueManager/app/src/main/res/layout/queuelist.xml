@@ -8,13 +8,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Listado de las colas"
+        android:textColor="@color/gold"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Empty"
         android:id="@+id/queueListText"
         android:layout_gravity="center_horizontal" />
 

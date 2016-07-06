@@ -1,0 +1,90 @@
+body {
+  background: #F2F2F2;
+}
+
+h1, h2, h3, h4, h5, .foot-text {
+  color: black;
+  color: #FFD700;
+  -webkit-text-stroke: 1px black;
+}
+
+.login {
+  margin: 50px auto;
+  padding: 18px 20px;
+  width: 300px;
+  background: #A6A6A6;
+  background-clip: padding-box;
+  border: 3px solid #172b4e;
+  border-bottom-color: #142647;
+  border-radius: 5px;
+}
+
+.login input {
+  border: 1px solid #FFD700;
+}
+
+.button {
+  background: #D3D3D3;
+  border: 1px solid #FFD700;
+}
+
+.left {
+  float: right;
+}
+
+.qrImage{
+  border: 3px solid #FFD700;
+  width: 400px;
+  height: 400px;
+}
+
+.logoError {
+  width: 300px;
+  height: 300px;
+}
+
+.navbar-collapse {
+  background: #D3D3D3;
+}
+
+.queue {
+  background: #E6E6E6;
+  border: 1px solid #FFD700;
+}
+
+.navbar-collapse a {
+  color: black;
+}
+
+hr {
+  background: #FFD700;
+  height: 1px;
+}
+
+a:hover {
+  color: GREY;
+  text-decoration: none;
+}
+
+.textGold {
+  text-decoration: underline;
+  color: #FF8C00;
+  -webkit-text-stroke: 1px black;
+}
+
+.textGold:hover {
+  color: #CD853F;
+  text-decoration: underline;
+  -webkit-text-stroke: 1px black;
+}
+
+.btn {
+  color: BLACK;
+}
+
+#footer{
+  background-color: #CCCCCC;
+  height: 20%;
+  color: #FFD700;
+  border-top: 3px solid #172b4e;
+}

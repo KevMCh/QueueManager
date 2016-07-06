@@ -5,7 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by kevin on 22/6/16.
@@ -28,7 +30,6 @@ public class Database {
     private static final String URLWEBSERVICE = "URLWEB";
     private static final String FILEGETQUEUES = "FILEGETQUEUES";
     private static final String FILEINSERTUSER = "FILENEWUSER";
-
 
     private Context contextDatabase;
     private String idUser;
@@ -50,8 +51,8 @@ public class Database {
         new PostRequest(qrIDQueue).execute();
     }
 
-    public void getQueuesUser(TextView list) {
-        new GetRequest(list).execute();
+    public void getQueuesUser(ListView list, Context context) {
+        new GetRequest(list, context).execute();
     }
 
     public Context getContextDatabase() { return contextDatabase; }
@@ -106,25 +107,26 @@ public class Database {
                 return  Integer.parseInt(sb.toString());
 
             } catch(Exception ex) {
-                return 404;
+                return 401;
 
             } finally {
                 try {
                     assert reader != null;
                     reader.close();
                 } catch(Exception ex) {
-                    return 404;
+                    return 402;
                 }
             }
         }
 
         @Override
         protected void onPostExecute(Integer result) {
-            if(result == 200){
+            Toast.makeText(getContextDatabase(), result.toString(), Toast.LENGTH_SHORT).show();
+            /*if(result == 200){
                 Toast.makeText(getContextDatabase(), "Creada con éxito", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContextDatabase(), "Error accediendo a la cola", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         }
 
         public void setIdQueue(String idQueue) { this.idQueue = idQueue; }
@@ -134,10 +136,12 @@ public class Database {
 
     private class GetRequest extends AsyncTask<Void, Void, String> {
 
-        private TextView queuesList;
+        private ListView queuesList;
+        private Context context;
 
-        public GetRequest(TextView list) {
+        public GetRequest(ListView list, Context contextView) {
             queuesList = list;
+            context = contextView;
         }
 
         @Override
@@ -190,7 +194,10 @@ public class Database {
 
         @Override
         protected void onPostExecute(String result) {
-            String data = "";
+
+            Toast.makeText(contextDatabase, "Hola 2", Toast.LENGTH_SHORT).show();
+
+            ArrayList<String> data = new ArrayList<String>();
             try {
                 JSONObject jsonRootObject = new JSONObject(result);
                 JSONArray jsonArray = jsonRootObject.optJSONArray("Queues");
@@ -203,18 +210,25 @@ public class Database {
                     String name = jsonObject.optString("Name").toString();
                     String listUsers = jsonObject.optString("ListUsers").toString();
 
-                    data += "* Queue " + i + ": \n\tID: "+ id + "\n\tIDEntity: " + idEntity +
+                    String item = "Queue " + i + ": \n\tID: "+ id + "\n\tIDEntity: " + idEntity +
                             " \n\t Name: " + name + "\n\tLista de usuarios: " + listUsers + "\n\n";
+                    data.add(item);
                 }
-                getQueuesList().setText(data);
+                ArrayAdapter<String> adapter =
+                        new ArrayAdapter<String> (getContext(), android.R.layout.simple_list_item_1, data);
+                getQueuesList().setAdapter(adapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        public TextView getQueuesList() { return queuesList; }
+        public ListView getQueuesList() { return queuesList; }
 
-        public void setQueuesList(TextView queuesList) { this.queuesList = queuesList; }
+        public void setQueuesList(ListView queuesList) { this.queuesList = queuesList; }
+
+        public Context getContext() { return context; }
+
+        public void setContext(Context context) { this.context = context; }
     }
 }

@@ -26,7 +26,7 @@ $resultEntity = mysqli_query($sqlEntity);
 ?>
 <html lang="es">
     <head>
-        <title>Queue Manager</title>
+        <title>Turn - Time</title>
         <meta charset="UTF-8">
     </head>
 <body>
@@ -36,10 +36,22 @@ $resultEntity = mysqli_query($sqlEntity);
         ($linkDB->query($sqlQueue) === TRUE) &&
         ($linkDB->query($sqlEntity) === TRUE)) {
       logout();
-      echo "Cuenta elminada..\n";
+      ?>
+      <?php
     } else {
-      echo "Error: <br>" . $linkDB->error;
+    ?>
+      <h2>Uppss.. ¡Que vergüenza!</h2>
+      <p>Nos hemos encontrado con errores en nuestro servidor,
+        por favor contacta con tu administrador.</p>
+      <br>
+      <h4>Error:</h4>
+      <br>
+    <?php
+      echo $linkDB -> error;
     }
+    ?>
+    <?php
+    include ("../includes/footer.php");
     ?>
   </body>
 </body>
