@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import es.ull.esit.queuemanager.notification.InstanceIDService;
+
 public class ShowMainMenu extends AppCompatActivity {
 
     private Button enterButton;
-    private Button accessQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -90,7 +90,8 @@ if ($resultQueue = $linkDB -> query($queryQueue)) {
                  "ORDER BY Position";
   if ($resultClient = $linkDB -> query($queryClient)) {
     echo "<div class='row'>
-            <div class='col-sm-2 col-sm-offset-1'><b>Turno:</b><br></div>
+            <div class='col-sm-1 col-sm-offset-1'><b>Turno:</b><br></div>
+            <div class='col-sm-2'><b>Turno de notificación al usuario:</b><br></div>
             <div class='col-sm-2'><b>Identificador del usuario:</b><br></div>
             <div class='col-sm-2'><b>Hora de creación del turno:</b><br></div>
             <div class='col-sm-2'><b>Estado del turno:</b><br></div>
@@ -99,8 +100,11 @@ if ($resultQueue = $linkDB -> query($queryQueue)) {
 
     while($nextClient = $resultClient -> fetch_row()) {
       echo "<div class='row'>";
-      printf("<div class='col-sm-2 col-sm-offset-1'>%s</div>",
+      printf("<div class='col-sm-1 col-sm-offset-1'>%s</div>",
       $nextClient[0]);
+
+      printf("<div class='col-sm-2'>%s</div>",
+      $nextClient[0] - $nextClient[5]);
 
       printf("<div class='col-sm-2'>%s</div>",
       $nextClient[2]);

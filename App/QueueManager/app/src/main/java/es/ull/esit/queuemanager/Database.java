@@ -22,14 +22,17 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import es.ull.esit.queuemanager.notification.InstanceIDService;
+
 /**
  * Created by kevin on 22/6/16.
  */
 public class Database {
 
-    private static final String URLWEBSERVICE = "URLWEB";
-    private static final String FILEGETQUEUES = "FILEGETQUEUES";
-    private static final String FILEINSERTUSER = "FILENEWUSER";
+    private static final String URLWEBSERVICE = "URLWEB/app/";
+    private static final String FILEGETQUEUES = "getQueuesUser.php";
+    private static final String FILEINSERTUSER = "insertUserInQueue.php";
+
 
     private Context contextDatabase;
     private String idUser;
@@ -47,8 +50,9 @@ public class Database {
         }
     }
 
-    public void setUserInQueue(String qrIDQueue) {
-        new PostRequest(qrIDQueue).execute();
+    public void setUserInQueue(String qrIDQueue, Settings settings) {
+        int numNotifyUser = settings.getTurnNotifyUser();
+        new PostRequest(qrIDQueue, numNotifyUser).execute();
     }
 
     public void getQueuesUser(ListView list, Context context) {
@@ -68,9 +72,11 @@ public class Database {
     private class PostRequest extends AsyncTask<Void, Void, Integer> {
 
         private String idQueue;
+        private int numNotifyUser;
 
-        public PostRequest(String qrIDQueue) {
+        public PostRequest(String qrIDQueue, int numNotifyUser) {
             idQueue = qrIDQueue;
+            this.numNotifyUser = numNotifyUser;
         }
 
         @Override
@@ -82,6 +88,12 @@ public class Database {
 
                 paramsRequest += "&" + URLEncoder.encode("idUser", "UTF-8") + "="
                         + URLEncoder.encode(getIdUser(), "UTF-8");
+
+                paramsRequest += "&" + URLEncoder.encode("tokenFCM", "UTF-8") + "="
+                        + URLEncoder.encode(InstanceIDService.getRefreshedToken(), "UTF-8");
+
+                paramsRequest += "&" + URLEncoder.encode("positionNotification", "UTF-8") + "="
+                        + URLEncoder.encode(String.valueOf(numNotifyUser), "UTF-8");
 
             } catch(UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -121,12 +133,11 @@ public class Database {
 
         @Override
         protected void onPostExecute(Integer result) {
-            Toast.makeText(getContextDatabase(), result.toString(), Toast.LENGTH_SHORT).show();
-            /*if(result == 200){
+            if(result == 200){
                 Toast.makeText(getContextDatabase(), "Creada con éxito", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContextDatabase(), "Error accediendo a la cola", Toast.LENGTH_SHORT).show();
-            }*/
+            }
         }
 
         public void setIdQueue(String idQueue) { this.idQueue = idQueue; }
@@ -147,7 +158,7 @@ public class Database {
         @Override
         protected String doInBackground(Void... params) {
             String paramsRequest = null;
-            
+
             try {
                 paramsRequest = URLEncoder.encode("idUser", "UTF-8")
                         + "=" + URLEncoder.encode(getIdUser(), "UTF-8");
@@ -194,9 +205,6 @@ public class Database {
 
         @Override
         protected void onPostExecute(String result) {
-
-            Toast.makeText(contextDatabase, "Hola 2", Toast.LENGTH_SHORT).show();
-
             ArrayList<String> data = new ArrayList<String>();
             try {
                 JSONObject jsonRootObject = new JSONObject(result);

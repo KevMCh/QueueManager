@@ -26,21 +26,9 @@
         android:id="@+id/checkBoxVibration"
         android:layout_gravity="center_horizontal"
         android:checked="true"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="64dp" />
-
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/barVibration"
-        android:max="300"
-        android:progress="5"
-        android:indeterminate="false"
-        android:layout_alignLeft="@+id/checkBoxVibration"
-        android:layout_alignStart="@+id/checkBoxVibration"
-        android:layout_below="@+id/checkBoxVibration" />
+        android:layout_alignTop="@+id/notifyUser"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -50,17 +38,16 @@
         android:layout_gravity="center_horizontal"
         android:checked="true"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
+        android:layout_alignLeft="@+id/checkBoxVibration"
+        android:layout_alignStart="@+id/checkBoxVibration" />
 
-    <SeekBar
+    <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/barSound"
-        android:max="300"
-        android:progress="5"
-        android:indeterminate="false"
-        android:layout_alignLeft="@+id/checkBoxSound"
-        android:layout_alignStart="@+id/checkBoxSound"
-        android:layout_below="@+id/checkBoxSound" />
+        android:id="@+id/notifyUser"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/textView"
+        android:layout_toStartOf="@+id/textView" />
+
 </RelativeLayout>

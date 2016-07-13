@@ -52,7 +52,7 @@ public class ReadQR extends Activity {
     }
 
     private void createInDatabase(String scanResult) {
-        getDatabase().setUserInQueue(scanResult);
+        getDatabase().setUserInQueue(scanResult, ((Settings) this.getApplication()));
     }
 
     public ImageButton getButtonReader() { return buttonReader; }
