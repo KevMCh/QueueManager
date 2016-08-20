@@ -7,21 +7,16 @@ header('refresh:2; url=/');
 $idEntity = $_GET['idEntity'];
 $linkDB = connectToDataBase();
 $sqlEntity = "DELETE FROM Entitys WHERE ID = $idEntity";
-$sqlQueue = "DELETE FROM Queues WHERE IDEntity = $idEntity";
 $sqlIDQueues = "SELECT ID FROM Queues WHERE IDEntity = $idEntity";
-$sqlUser = "DELETE FROM UsersQueue WHERE IDQueue IN " .
-           "(SELECT ID FROM Queues WHERE IDEntity = $idEntity)";
-
-$resultUser = mysqli_query($sqlUser);
 
 if ($result = $linkDB->query($sqlIDQueues)) {
+  # Delete the files of the queue
   while ($row = $result->fetch_row()) {
     $file = "../queue/temp/" . $row[0] . ".png";
     unlink($file);
   }
 }
 
-$resultQueue = mysqli_query($sqlQueue);
 $resultEntity = mysqli_query($sqlEntity);
 ?>
 <html lang="es">
@@ -32,9 +27,8 @@ $resultEntity = mysqli_query($sqlEntity);
 <body>
   <body>
     <?php
-    if (($linkDB->query($sqlUser) === TRUE) &&
-        ($linkDB->query($sqlQueue) === TRUE) &&
-        ($linkDB->query($sqlEntity) === TRUE)) {
+    # Delete a entity
+    if ($linkDB->query($sqlEntity) === TRUE) {
       logout();
       ?>
       <?php

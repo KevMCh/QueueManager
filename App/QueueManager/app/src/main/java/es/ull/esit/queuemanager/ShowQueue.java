@@ -1,3 +1,16 @@
+/**
+ * TURN-TIME
+ *
+ * UNIVERSIDAD DE LA LAGUNA
+ * ESCUELA SUPERIOR DE INGENIERÍA Y TECNOLOGÍA
+ *
+ * @author	Kevin Martín
+ * @version	0.0.0
+ * @since 9/6/16
+ * @email: marchinkev@gmail.com
+ *
+ * Class to show the queues in the view.
+ */
 package es.ull.esit.queuemanager;
 
 import android.app.Activity;
@@ -7,13 +20,10 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/**
- * Created by kevin on 9/6/16.
- */
 public class ShowQueue extends Activity {
 
-    private Database database;
-    private ListView queuesList;
+    private Database database;                  // The server database
+    private ListView queuesList;                // Item to show the list of queues
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

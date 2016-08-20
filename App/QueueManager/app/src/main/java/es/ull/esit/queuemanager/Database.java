@@ -1,11 +1,27 @@
+/**
+ * TURN-TIME
+ *
+ * UNIVERSIDAD DE LA LAGUNA
+ * ESCUELA SUPERIOR DE INGENIERÍA Y TECNOLOGÍA
+ *
+ * @author	Kevin Martín
+ * @version	0.0.0
+ * @since 22/6/16
+ * @email: marchinkev@gmail.com
+ *
+ * Class to connecting to a server.
+ */
 package es.ull.esit.queuemanager;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,10 +39,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import es.ull.esit.queuemanager.notification.InstanceIDService;
+import es.ull.esit.queuemanager.adapter.Ticket;
+import es.ull.esit.queuemanager.adapter.TicketAdapter;
 
-/**
- * Created by kevin on 22/6/16.
- */
 public class Database {
 
     private static final String URLWEBSERVICE = "URLWEB/app/";
@@ -36,6 +51,7 @@ public class Database {
 
     private Context contextDatabase;
     private String idUser;
+    private ConnectivityManager connectivityManager;
 
     public Database(Context context, ConnectivityManager connectivityManager,
                     ContentResolver contetResolver) {
@@ -43,11 +59,7 @@ public class Database {
         idUser   = android.provider.Settings.System.getString(contetResolver,
                 android.provider.Settings.System.ANDROID_ID);
 
-        ConnectivityManager connMgr = connectivityManager;
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null || !(networkInfo.isConnected())) {
-            Toast.makeText(contextDatabase, "There's no connection", Toast.LENGTH_SHORT).show();
-        }
+        this.connectivityManager = connectivityManager;
     }
 
     public void setUserInQueue(String qrIDQueue, Settings settings) {
@@ -57,6 +69,13 @@ public class Database {
 
     public void getQueuesUser(ListView list, Context context) {
         new GetRequest(list, context).execute();
+    }
+
+    public void checkConnection() {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !(networkInfo.isConnected())) {
+            Toast.makeText(contextDatabase, "There's no connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public Context getContextDatabase() { return contextDatabase; }
@@ -69,6 +88,9 @@ public class Database {
         this.contextDatabase = contextDatabase;
     }
 
+    /**
+     * Private class that inserts the user in the queue.
+     */
     private class PostRequest extends AsyncTask<Void, Void, Integer> {
 
         private String idQueue;
@@ -77,6 +99,8 @@ public class Database {
         public PostRequest(String qrIDQueue, int numNotifyUser) {
             idQueue = qrIDQueue;
             this.numNotifyUser = numNotifyUser;
+
+            checkConnection();
         }
 
         @Override
@@ -111,12 +135,9 @@ public class Database {
 
                 // Server response
                 reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String response = null;
-                while((response = reader.readLine()) != null) {
-                    sb.append(response + "\n");
-                }
-                return  Integer.parseInt(sb.toString());
+                String response = reader.readLine();
+
+                return Integer.parseInt(response);
 
             } catch(Exception ex) {
                 return 401;
@@ -145,6 +166,9 @@ public class Database {
         public String getIdQueue() { return idQueue; }
     }
 
+    /**
+     * Private class in order to receive all queue where the user waits.
+     */
     private class GetRequest extends AsyncTask<Void, Void, String> {
 
         private ListView queuesList;
@@ -153,6 +177,8 @@ public class Database {
         public GetRequest(ListView list, Context contextView) {
             queuesList = list;
             context = contextView;
+
+            checkConnection();
         }
 
         @Override
@@ -205,7 +231,7 @@ public class Database {
 
         @Override
         protected void onPostExecute(String result) {
-            ArrayList<String> data = new ArrayList<String>();
+            final ArrayList<Ticket> listTickets = new ArrayList();
             try {
                 JSONObject jsonRootObject = new JSONObject(result);
                 JSONArray jsonArray = jsonRootObject.optJSONArray("Queues");
@@ -213,18 +239,29 @@ public class Database {
                 for(int i = 0; i < jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                    int id = Integer.parseInt(jsonObject.optString("ID").toString());
-                    int idEntity = Integer.parseInt(jsonObject.optString("IDEntity").toString());
-                    String name = jsonObject.optString("Name").toString();
-                    String listUsers = jsonObject.optString("ListUsers").toString();
+                    String nameEntity = jsonObject.optString("NameEntity").toString();
+                    String nameQueue = jsonObject.optString("NameQueue").toString();
+                    int turn = Integer.parseInt(jsonObject.optString("Turn").toString());
+                    int position = Integer.parseInt(jsonObject.optString("Position").toString());
+                    String date = jsonObject.optString("Date").toString();
 
-                    String item = "Queue " + i + ": \n\tID: "+ id + "\n\tIDEntity: " + idEntity +
-                            " \n\t Name: " + name + "\n\tLista de usuarios: " + listUsers + "\n\n";
-                    data.add(item);
+                    Ticket ticket = new Ticket(nameEntity, nameQueue, turn, position, date);
+                    listTickets.add(ticket);
                 }
-                ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String> (getContext(), android.R.layout.simple_list_item_1, data);
+
+                TicketAdapter adapter = new TicketAdapter((Activity) getContext(), listTickets);
                 getQueuesList().setAdapter(adapter);
+
+                getQueuesList().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent((Activity) getContext(),
+                                ShowSimpleTicket.class);
+                        intent.putExtra("ticket", listTickets.get(position));
+                        getContext().startActivity(intent);
+
+                    }
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();

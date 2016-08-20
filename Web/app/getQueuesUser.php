@@ -8,36 +8,36 @@ $idUser = urldecode($_POST['idUser']);
 $queryQueues = "SELECT * FROM Queues";
 
 if(!$resultQueues = mysqli_query($linkDB, $queryQueues)) die();
+
 $rawdata = array();
 
 while ($rowQueue = mysqli_fetch_array($resultQueues)) {
     $id = $rowQueue[0];
     $idEntity = $rowQueue[1];
     $name = $rowQueue[2];
+    $turn = $rowQueue[3];
 
-    $queryUser = "SELECT * FROM UsersQueue WHERE IDUser = '$idUser'" .
-                 "AND IDQueue = $id";
+    # Get the name of the entity
+    $queryNameEntity = "SELECT * FROM Entitys WHERE ID = '$idEntity'";
+    $resultEntity = mysqli_query($linkDB, $queryNameEntity);
+    $rowEntity = mysqli_fetch_array($resultEntity);
+    $nameEntity = $rowEntity[1];
+
+    # Create the array of data
+    $queryUser = "SELECT * FROM UsersQueue WHERE IDUser = '$idUser' " .
+                 "AND IDQueue = $id ORDER BY HasBeenCreated DESC";
     $resultUser = $linkDB->query($queryUser);
 
     if ($resultUser && ($resultUser->num_rows > 0)) {
 
-      $queryUsers = "SELECT * FROM UsersQueue WHERE IDQueue = $id";
-
-      if(!$resultUsers = mysqli_query($linkDB, $queryUsers)) die();
-      $listUsers = array();
-
-      while ($rowUser = mysqli_fetch_array($resultUsers)) {
+      while ($rowUser = mysqli_fetch_array($resultUser)) {
         $position = $rowUser[0];
-        $idQueue= $rowUser[1];
         $idUser = $rowUser[2];
-        $attended = $rowUser[3];
+        $hasBeenCreated = $rowUser[3];
 
-        $listUsers[] = array('Position' => $position, 'IDQueue' => $idQueue,
-        'IDUser' => $idUser, 'Attended' => $attended);
+        $rawdata[] = array('NameEntity' => $nameEntity, 'NameQueue' => $name,
+        'Turn' => $turn, 'Position' => $position, 'Date' => $hasBeenCreated);
       }
-
-      $rawdata[] = array('ID' => $id, 'IDEntity' => $idEntity, 'Name' => $name,
-      'ListUsers' => $listUsers);
     }
 }
 

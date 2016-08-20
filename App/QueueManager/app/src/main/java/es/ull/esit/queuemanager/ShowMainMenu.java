@@ -1,3 +1,16 @@
+/**
+ * TURN-TIME
+ *
+ * UNIVERSIDAD DE LA LAGUNA
+ * ESCUELA SUPERIOR DE INGENIERÍA Y TECNOLOGÍA
+ *
+ * @author	Kevin Martín
+ * @version	0.0.0
+ * @since 8/6/16
+ * @email: marchinkev@gmail.com
+ *
+ * Class to the main view.
+ */
 package es.ull.esit.queuemanager;
 
 import android.content.Intent;
@@ -12,7 +25,7 @@ import es.ull.esit.queuemanager.notification.InstanceIDService;
 
 public class ShowMainMenu extends AppCompatActivity {
 
-    private Button enterButton;
+    private Button enterButton;                      // Access button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

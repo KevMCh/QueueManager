@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo"
+        android:background="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:id="@+id/ticketIcon"
+            android:src="@drawable/ticket"
+            android:visibility="visible"
+            android:layout_gravity="right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/nameEntitySimpleTicketView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entidad: "
+            android:textColor="@color/title"
+            android:layout_marginTop="146dp"
+            android:layout_marginLeft="78dp"
+            android:layout_marginStart="78dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/nameQueueSimpleTicketView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre cola: "
+            android:textColor="@color/title"
+            android:layout_below="@+id/nameEntitySimpleTicketView"
+            android:layout_alignLeft="@+id/nameEntitySimpleTicketView"
+            android:layout_alignStart="@+id/nameEntitySimpleTicketView"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/positionSimpleTicketView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posición: "
+            android:textColor="@color/title"
+            android:layout_below="@+id/nameQueueSimpleTicketView"
+            android:layout_alignLeft="@+id/nameQueueSimpleTicketView"
+            android:layout_alignStart="@+id/nameQueueSimpleTicketView"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/turnSimpleTicketView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Turno: "
+            android:textColor="@color/title"
+            android:layout_below="@+id/positionSimpleTicketView"
+            android:layout_alignLeft="@+id/positionSimpleTicketView"
+            android:layout_alignStart="@+id/positionSimpleTicketView"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/dateSimpleTicketView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textColor="@color/title"
+            android:layout_below="@+id/turnSimpleTicketView"
+            android:layout_alignLeft="@+id/turnSimpleTicketView"
+            android:layout_alignStart="@+id/turnSimpleTicketView"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="8dp" />
+    </RelativeLayout>
+</LinearLayout>

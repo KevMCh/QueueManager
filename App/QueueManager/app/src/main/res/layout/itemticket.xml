@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true" >
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/ticketIcon"
+        android:src="@drawable/ticket"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/dateView"
+        android:layout_toEndOf="@+id/dateView" />
+
+    <TextView
+        android:id="@+id/nameEntityView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entidad: "
+        android:textColor="@color/title"
+        android:layout_alignTop="@+id/ticketIcon"
+        android:layout_marginTop="21dp" />
+
+    <TextView
+        android:id="@+id/nameQueueView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre cola: "
+        android:textColor="@color/title"
+        android:layout_below="@+id/nameEntityView"
+        android:layout_alignLeft="@+id/nameEntityView"
+        android:layout_alignStart="@+id/nameEntityView" />
+
+    <TextView
+        android:id="@+id/positionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posición: "
+        android:textColor="@color/title"
+        android:layout_below="@+id/nameQueueView"
+        android:layout_alignLeft="@+id/nameQueueView"
+        android:layout_alignStart="@+id/nameQueueView" />
+
+    <TextView
+        android:id="@+id/turnView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Turno: "
+        android:textColor="@color/title"
+        android:layout_below="@+id/positionView"
+        android:layout_alignLeft="@+id/positionView"
+        android:layout_alignStart="@+id/positionView" />
+
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textColor="@color/title"
+        android:layout_below="@+id/turnView"
+        android:layout_alignLeft="@+id/turnView"
+        android:layout_alignStart="@+id/turnView"
+        android:layout_marginBottom="28dp" />
+
+</RelativeLayout>

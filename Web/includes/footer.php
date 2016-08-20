@@ -1,23 +1,17 @@
 <div id="footer">
   <div class="margin">
-    <br>
-    <div class="col-sm-4 foot-text">
-      <h2> Turn - Time </h2>
-      <p class="lead">
-        <small>Gestión de turnos online</small>
-      </p>
-    </div>
-    <br><br>
-    <div class="col-md-2 col-md-offset-4 col-xs-offset-8 margin">
+    <div class="col-md-5 col-md-offset-5  margin">
       <div class="col-md-4 col-xs-offset-0">
-        <a href="https://twitter.com/TurnTimeApp" class="btn btn-social-icon btn-twitter">
-          <span class="fa fa-twitter">Twitter</span>
-        </a>
-      </div>
-      <div class="col-md-4 col-xs-offset-0">
-        <a href="https://www.facebook.com/Turn-Time-1331178666896460/" class="btn btn-social-icon btn-facebook">
-          <span class="btn-facebook">Facebook</span>
-        </a>
+        <div class="col-md-1">
+          <a href="https://twitter.com/TurnTimeApp">
+            <img class="social-link" src="/includes/twitter.png" alt="logo" height="50" width="50">
+          </a>
+        </div>
+        <div class="col-md-3 col-md-offset-2">
+          <a href="https://www.facebook.com/Turn-Time-1331178666896460/">
+            <img class="social-link" src="/includes/facebook.png" alt="logo">
+          </a>
+        </div>
       </div>
     </div>
   </div>

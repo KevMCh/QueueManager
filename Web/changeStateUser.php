@@ -7,17 +7,17 @@ if (!isAuth()){
 }
 
 $idQueue = $_POST['idQueue'];
-header('refresh:1; url=/listOfUser.php/?idQueue='.urlencode($idQueue));
+header('refresh:0; url=/listOfUser.php/?idQueue='.urlencode($idQueue));
 
-$idUser = $_POST['idUser'];
 $attended = $_POST['attended'];
-
+$id = $_POST['id'];
 $newState = !($attended);
 
+# Update the state of the user in the queue
 $linkDB = connectToDataBase();
 $query = "UPDATE UsersQueue SET Attended = '$newState'
-          WHERE IDQueue = '$idQueue' AND IDUser = '$idUser'
-          AND Attended = '$attended'";
+          WHERE IDQueue = '$idQueue' AND Attended = '$attended'
+          AND Position = '$id'";
 ?>
 <html lang="es">
 <head>
@@ -32,6 +32,7 @@ $query = "UPDATE UsersQueue SET Attended = '$newState'
   <img src="/includes/logo.png" alt="logo" height="500" width="500">
   <?php
   if ($linkDB->query($query) === TRUE) {
+
   ?>
   <h2>Cambio realizado correctamente </h2>
   <p>Redireccionando.. </p>

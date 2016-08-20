@@ -7,10 +7,4 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gold</item>
     </style>
-
-    <!-- The button styles -->
-    <style name="buttonStyle">
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:background">#80000000</item>
-    </style>
 </resources>

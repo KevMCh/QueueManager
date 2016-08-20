@@ -2,5 +2,6 @@
 <resources>
     <color name="colorPrimary">#F2F2F2</color>
     <color name="colorPrimaryDark">#D3D3D3</color>
+    <color name="title">#000</color>
     <color name="gold">#FFD700</color>
 </resources>

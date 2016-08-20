@@ -18,13 +18,49 @@ if (!isAuth()){
   <?php
   include ("includes/navBar.php");
   ?>
-  <h1 class="text-center"> Listado de colas </h1>
+  <div class="container-fluid">
+    <div class="row content">
+      <?php
+      $linkDB = connectToDataBase();
+      $idEntity = $_SESSION['user'];
+
+      # Get the details of the entity
+      $queryNameEntity = "SELECT * FROM Entitys WHERE ID = '$idEntity'";
+      $resultEntity = mysqli_query($linkDB, $queryNameEntity);
+      $rowEntity = mysqli_fetch_array($resultEntity);
+
+      printf ("<h1 class='text-center'>%s</h1>", $rowEntity[1]);
+      ?>
+      <div class='row'>
+        <div class='col-sm-9 col-sm-offset-1 queue list-group-item'>
+            <div class='col-sm-4'>
+              <?php
+              printf ("<img src='%s' class='profileImage' alt='profile image'>",
+                      $rowEntity[6]);
+              ?>
+            </div>
+            <div class='col-sm-7 col-sm-offset-1 list-group-item'>
+              <ul>
+                <?php
+                printf ("<li><b> Dirección:</b><br> %s </li><br>", $rowEntity[4]);
+                printf ("<li><b> Número de contacto:</b><br> %s</li><br>",
+                        $rowEntity[3]);
+                printf ("<li><b> Descripción de la empresa:</b><br>%s</li><br>",
+                        $rowEntity[5]);
+                ?>
+              </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="text-center"> Listado de colas </h2>
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-3 sidenav">
         <a data-toggle="popover" title="Datos para la cola" data-content="
         <?php
-        $idEntity = $_SESSION['user'];
+        # Form to create a new queue
         echo "<form action='/queue/createNewQueue.php' method='post'>
                 <input type='hidden' name='idEntity' value=$idEntity/>
                 <input type='text' name='nameQueue' value='Nombre'/>
@@ -52,8 +88,7 @@ if (!isAuth()){
       </div>
       <div class="col-sm-9">
         <?php
-        $idEntity = $_SESSION['user'];
-        $linkDB = connectToDataBase();
+        # Show list of queues
         $query = "SELECT * FROM Queues WHERE IDEntity = $idEntity";
         if ($result = $linkDB->query($query)) {
           echo "<div class='list-group'>";

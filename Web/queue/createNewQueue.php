@@ -4,6 +4,7 @@ include ("../includes/link.php");
 $exist = True;
 $linkDB = connectToDataBase();
 
+# Search a unused number to the queue
 $queryIDQueue = "SELECT * FROM Queue WHERE ID = '$idQueue'";
 do {
   $idQueue = rand();

@@ -5,16 +5,6 @@ if (!isAuth()){
   header('Location: /');
 }
 ?>
-<html lang="es">
-    <head>
-      <title>Turn - Time</title>
-      <meta charset="UTF-8">
-      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="/includes/style.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    </head>
-<body>
 <?php
 include ("includes/navBar.php");
 $linkDB = connectToDataBase();
@@ -28,33 +18,48 @@ if ($resultQueue = $linkDB -> query($queryQueue)) {
   echo "<h1 class='text-center'>Gestión de la cola '$rowQueue[2]'</h1><hr>";
 ?>
 
+<html lang="es">
+    <head>
+      <title>Turn - Time</title>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="/includes/style.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    </head>
+<body>
+
 <div class="row">
   <div class="col-sm-3 col-sm-offset-1">
     <?php
+    # Details of queue
     echo "<h2>Datos:</h2><hr><br><br>";
     echo "<b>Identificador: </b> $rowQueue[0]<br><br>";
     echo "<b>Name: </b> $rowQueue[2]<br><br>";
     echo "<b>Turno: </b> $rowQueue[3]<br><br>";
     ?>
     <hr>
-    <form method="post" action="/queue/newTurn/attendedClient.php">
+    <!-- Change turn in the queue -->
+    <form method="post" action="/queue/incrementTurn.php">
       <?php
       $idEntity = $_SESSION['user'];
       echo "<input type='hidden' name='idQueue' value='$rowQueue[0]'> " .
            "<input type='hidden' name='name' value='$rowQueue[2]'> " .
            "<input type='hidden' name='turn' value='$rowQueue[3]'> " .
-           "<input type='hidden' name='idEntity' value='$idEntity'>";
+           "<input type='hidden' name='idEntity' value='$idEntity'>" .
+           "<input type='hidden' name='userAttended' value='True'>";
       ?>
       <input type="Submit" class='button btn btn-default' name="enviar"
       value="Cliente atendido">
     </form>
-    <form method="post" action="/queue/newTurn/incrementTurn.php">
+    <form method="post" action="/queue/incrementTurn.php">
       <?php
       $idEntity = $_SESSION['user'];
       echo "<input type='hidden' name='idQueue' value='$rowQueue[0]'> " .
            "<input type='hidden' name='name' value='$rowQueue[2]'> " .
            "<input type='hidden' name='turn' value='$rowQueue[3]'> " .
-           "<input type='hidden' name='idEntity' value='$idEntity'>";
+           "<input type='hidden' name='idEntity' value='$idEntity'>" .
+           "<input type='hidden' name='userAttended' value='False'>";
       ?>
       <input type="Submit" class='button btn btn-default' name="enviar"
       value="Siguiente">
@@ -74,7 +79,7 @@ if ($resultQueue = $linkDB -> query($queryQueue)) {
 <br>
 <div class='row'>
   <div class="input-group">
-    <div class='col-sm-3 col-sm-offset-1'>
+    <div class='col-sm-10 col-sm-offset-1'>
       <input type="text" class="form-control" placeholder="Buscar..">
       <span class="input-group-btn">
         <button type="button" class="btn btn-default button">
@@ -86,49 +91,41 @@ if ($resultQueue = $linkDB -> query($queryQueue)) {
 </div>
 <br>
 <?php
-  $queryClient = "SELECT * FROM UsersQueue WHERE IDQueue = $idQueue " .
+$queryClient = "SELECT * FROM UsersQueue WHERE IDQueue = $idQueue " .
                  "ORDER BY Position";
+
   if ($resultClient = $linkDB -> query($queryClient)) {
     echo "<div class='row'>
-            <div class='col-sm-1 col-sm-offset-1'><b>Turno:</b><br></div>
-            <div class='col-sm-2'><b>Turno de notificación al usuario:</b><br></div>
-            <div class='col-sm-2'><b>Identificador del usuario:</b><br></div>
-            <div class='col-sm-2'><b>Hora de creación del turno:</b><br></div>
-            <div class='col-sm-2'><b>Estado del turno:</b><br></div>
-          </div>
-          <br>";
+    <div class='col-sm-1 col-sm-offset-1'><b>Turno:</b><br></div>
+    <div class='col-sm-2'><b>Turno de notificación al usuario:</b><br></div>
+    <div class='col-sm-2'><b>Hora de creación del turno:</b><br></div>
+    <div class='col-sm-2'><b>Estado del turno:</b><br></div>
+    </div>
+    <br>";
 
     while($nextClient = $resultClient -> fetch_row()) {
       echo "<div class='row'>";
-      printf("<div class='col-sm-1 col-sm-offset-1'>%s</div>",
-      $nextClient[0]);
+      printf("<div class='col-sm-1 col-sm-offset-1'>%s</div>", $nextClient[0]);
 
-      printf("<div class='col-sm-2'>%s</div>",
-      $nextClient[0] - $nextClient[5]);
+      printf("<div class='col-sm-2'>%s</div>", $nextClient[5]);
 
-      printf("<div class='col-sm-2'>%s</div>",
-      $nextClient[2]);
 
-      printf("<div class='col-sm-2'>%s</div>",
-      $nextClient[3]);
+      printf("<div class='col-sm-2'>%s</div>", $nextClient[3]);
 
       echo "<div class='col-sm-2'>";
-      if($nextClient[4]){
 
-        echo "<button type='button' class='btn btn-success'>
-              Atendido
-              </button>";
+      if($nextClient[4]){
+        echo "<button type='button' class='btn btn-success'>Atendido</button>";
       } else {
-        echo "<button type='button' class='btn btn-warning'>
-              En espera
-              </button>";
+        echo "<button type='button' class='btn btn-warning'>En espera</button>";
       }
-      echo "</div>
-           <div class='col-sm-2'>";
+
+      echo "</div> <div class='col-sm-2'>";
       echo "<form method='post' action='/changeStateUser.php'>
+              <input type='hidden' name='id' value='$nextClient[0]'>
               <input type='hidden' name='idQueue' value='$nextClient[1]'>
               <input type='hidden' name='idUser' value='$nextClient[2]'>
-              <input type='hidden' name='attended' value='$nextClient[3]'>
+              <input type='hidden' name='attended' value='$nextClient[4]'>
               <input type='submit' class='btn btn-default button' value='Cambiar estado'>
               </form>";
       echo "</div>";
